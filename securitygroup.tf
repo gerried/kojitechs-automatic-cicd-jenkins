@@ -2,6 +2,7 @@
 resource "aws_security_group" "jenkins" {
   name        = "jenkins"
   description = "jenkins"
+  vpc_id = "vpc-07e659da3994ee4fd"
 
   ingress {
     description     = "allow ${var.jenkins_port}"

@@ -1,21 +1,17 @@
 
 #!/bin/bash
 # Installing JAVA && Jenkins 
-sudo yum install java-1.8* -y
-sudo yum install wget -y
-sudo yum install git -y
-sudo yum install epel-release java-11-openjdk-devel
-sudo amazon-linux-extras install epel -y
-sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
-sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+sudo yum update –y
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+sudo yum upgrade
+sudo amazon-linux-extras install java-openjdk11 -y
 sudo yum install jenkins -y
-sudo dnf upgrade
-sudo dnf install chkconfig java-devel
-sudo dnf install jenkins
 # Start jenkins service
-sudo systemctl start jenkins
-# Setup Jenkins to start at boot
 sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+# Setup Jenkins to start at boot
 sudo yum install git -y
 sudo yum install python
 sudo yum install python-pip
@@ -29,8 +25,7 @@ sudo useradd dockeradmin
 sudo usermod -aG docker dockeradmin
 sudo chmod 666 /var/run/docker.sock
 # install Sonarqube scanner
-mkdir sonnar-canna
-cd sonnar-canna
+mkdir sonnar-canna && cd sonnar-canna
 sudo unzip sonar-scanner-cli-4.6.2.2472-linux.zip
 sudo mv sonar-scanner-4.6.2.2472-linux  sonar-scanner-cli
 sudo mv sonar-scanner-cli /opt/sonar/
@@ -38,17 +33,17 @@ sudo mv sonar-scanner-cli /opt/sonar/
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
 # Installing maven
 sudo su
-mkdir /opt/maven
-cd /opt/maven
+mkdir /opt/maven && cd /opt/maven
+
 wget https://dlcdn.apache.org/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 #wget https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
 tar -xvzf apache-maven-3.0.5-bin.tar.gz
 # echo  "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.amzn2.M2_HOME=/opt/maven/apache-maven-3.8.4 M2=$M2_HOME/bin PATH=$PATH:$HOME/bin:$M2_HOME:$M2:$JAVA_HOME" > file10.1.x86_64  
-cat >> ~/.bash_profile 
-JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.amzn2.0.1.x86_64
-M2_HOME=/opt/maven/apache-maven-3.0.5/bin
-M2=$M2_HOME/bin
-PATH=$PATH:$HOME/bin:$M2_HOME:$M2:$JAVA_HOME 
+# cat >> ~/.bash_profile 
+# JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.amzn2.0.1.x86_64
+# M2_HOME=/opt/maven/apache-maven-3.0.5/bin
+# M2=$M2_HOME/bin
+# PATH=$PATH:$HOME/bin:$M2_HOME:$M2:$JAVA_HOME 
 sudo useradd ansible
 sudo useradd jenkins
 sudo -u jenkins mkdir /home/jenkins.ssh
